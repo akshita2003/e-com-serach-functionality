@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Finder - Clothing Search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-6 text-center">Fashion Finder</h1>
+        <div class="max-w-md mx-auto">
+            <input type="text" id="searchInput" placeholder="Search for clothing..." class="w-full px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div id="searchResults" class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Search results will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // Sample clothing data (in a real application, this would come from a backend API)
+        const clothingItems = [
+            { id: 1, name: "Blue Denim Jeans", price: 49.99, image: "https://www.vudu.co.in/cdn/shop/files/VibrantBlueDenim-VUDU1.jpg?v=1723135422&width=1080" },
+            { id: 2, name: "Red Cotton T-Shirt", price: 19.99, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRv6TAv6S1cUHy07UbDx6UXDvV1UiEJzT3Y-g&s" },
+            { id: 3, name: "Black Leather Jacket", price: 99.99, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbweKIEVVVLOmzPzMBWEW17iGLt0bzaZ1sdA&s" },
+            { id: 4, name: "White Linen Dress", price: 79.99, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK71rXP91E5ljgoE0gfV_pNdgfN46N78k8FA&s" },
+            { id: 5, name: "Gray Wool Sweater", price: 59.99, image: "https://assets.ajio.com/medias/sys_master/root/20231227/KKvc/658c2ac1afa4cf41f5ef6709/-473Wx593H-466923441-grey-MODEL.jpg" },
+            { id: 6, name: "Navy Blue Blazer", price: 89.99, image: "https://blackberrys.com/cdn/shop/files/textured-casual-blazer-in-navy-caden-blackberrys-clothing-1.jpg?v=1685953969" },
+            { id: 7, name: "Khaki Chino Pants", price: 39.99, image: "https://m.media-amazon.com/images/I/511ZsPAoNCL._AC_UY1100_.jpg" },
+            { id: 8, name: "Floral Print Skirt", price: 34.99, image: "https://assets.ajio.com/medias/sys_master/root/20230621/1TQQ/6492a4c242f9e729d76bcd5c/-473Wx593H-463935975-black-MODEL.jpg" },
+        ];
+
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+
+        // Function to display items
+        function displayResults(items) {
+            searchResults.innerHTML = '';
+            items.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'bg-white rounded-lg shadow-md p-4';
+                itemElement.innerHTML = `
+                    <div class="w-full h-40 mb-4 overflow-hidden rounded">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+                    </div>
+                    <h2 class="text-lg font-semibold mb-2">${item.name}</h2>
+                    <p class="text-gray-600">$${item.price.toFixed(2)}</p>
+                    <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">Add to Cart</button>
+                `;
+                searchResults.appendChild(itemElement);
+            });
+        }
+
+        // Display all items initially
+        displayResults(clothingItems);
+
+        // Filter items based on search input
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            if (query.length > 2) {
+                const filteredItems = clothingItems.filter(item => 
+                    item.name.toLowerCase().includes(query)
+                );
+                displayResults(filteredItems);
+            } else {
+                displayResults(clothingItems);
+            }
+        });
+    </script>
+</body>
+</html>
